@@ -26,4 +26,11 @@ bin/
 .vscode/
 
 ### Mac OS ###
+<<<<<<< HEAD
 .DS_Store
+=======
+.DS_Store
+### IntelliJ ###
+Elektro.iml
+*.class
+>>>>>>> 1485e72b33bbd569093321884bfbaf2cb6d4bbdc

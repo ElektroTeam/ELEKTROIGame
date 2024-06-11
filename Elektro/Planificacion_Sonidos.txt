@@ -1,0 +1,66 @@
+Ideas para la implementación de musicas:
+
+Lugares:
+--Primer nivel--
+Casa
+Patio trasero de la casa
+Desierto
+Centro comercial
+Estacionamiento del centro comercial
+
+--Segundo nivel--
+bosque
+cueva
+
+Entidades:
+Pelea contra soldados Elektro
+Pelea contra infantes
+Pelea contra lobos
+Pelea contra centinelas
+Pelea contra cristales
+
+
+Ideas para la implementación de sonidos:
+
+Sonidos generales
+-----------------
+Obtención de item coleccionable
+Obtencion de item de combate
+Interacción con un aliado
+Interacción con un enemigo
+Abrir puerta
+Intentar abrir puerta cerrada
+Click para continuar(dialogos)
+Ganar pelea
+Perder Pelea
+
+Sonidos específicos
+------------------
+-Casa por dentro:
+despertarse
+levantarse
+Caminar sobre piso de madera
+
+
+-Patio trasero:
+Caminar sobre grama
+Sorpresa al encontrar cadaver
+
+--Centro Comercial
+Caminar sobre cerámica
+ver items rotos
+
+
+-- Parqueo Centro Comercial
+Caminar sobre pavimento
+ver carros abandonados
+
+
+--Bosque
+Caminar sobre tierra
+Caminar sobre hierva
+
+--Cueva
+Caminar sobre terreno de piedras
+
+
