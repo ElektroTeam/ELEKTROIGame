@@ -1,0 +1,12 @@
+package game;
+
+import java.awt.image.BufferedImage;
+
+public class Tile {
+    public BufferedImage image;
+    public boolean colission = false;
+    public Tile() {
+
+    }
+
+}

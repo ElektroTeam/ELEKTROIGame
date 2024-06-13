@@ -1,8 +1,5 @@
 package utilities;
 
-import music.manager.AudioLoader;
-import music.enums.AudioFile;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -38,7 +35,7 @@ public class Prompt {
         System.out.print("Press \"ENTER\" to continue...");
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
-        AudioLoader.playSound(AudioFile.NEXT);
+        //AudioLoader.playSound(AudioFile.NEXT);
     }
     /**
      * Clears the terminal screen.
