@@ -2,12 +2,10 @@ package entities.player;
 import entities.Entity;
 import game.GamePanel;
 import game.KeyboardHandler;
-import utilities.UtilityTool;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 
 public class Player extends Entity {
     private KeyboardHandler keyboardHandler;
@@ -17,22 +15,23 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyboardHandler keyboardHandler) {
         super(gamePanel);
         this.keyboardHandler = keyboardHandler;
-        screenX = (gamePanel.screenWidth/2)-(gamePanel.tileSize/2);
-        screenY = (gamePanel.screenHeight/2)-(gamePanel.tileSize/2);
-        solidArea = new Rectangle(8, 14, 32, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
+        screenX = (gamePanel.screenWidth/2)-(gamePanel.tileSize/2);
+        screenY = (gamePanel.screenHeight/2)-(gamePanel.tileSize/2);
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues(){
         // Default spawn position
         // When looking in the map file, use [y][2x] or [line][column]
-        worldX = gamePanel.tileSize*10;
-        worldY = gamePanel.tileSize*30;
+        worldX = gamePanel.tileSize*42;
+        worldY = gamePanel.tileSize*27;
+
         speed = 3;
         direction = "down";
     }
+    @Override
     public void update(){
         if(keyboardHandler.upPressed||keyboardHandler.downPressed||keyboardHandler.leftPressed||keyboardHandler.rightPressed){
             if(keyboardHandler.upPressed){
@@ -93,51 +92,58 @@ public class Player extends Entity {
     }
     public void interactNPC(int index){
         if(index!=999){
-            //System.out.println("You are hitting an NPC!");
+            if(gamePanel.keyboardHandler.enterPressed){
+                gamePanel.gameState = gamePanel.dialogueState;
+                gamePanel.npcs[index].speak();
+            }
         }
+        gamePanel.keyboardHandler.enterPressed = false;
     }
+    @Override
     public void draw(Graphics2D g2d){
-        // Paint the components
-/*        g2d.setColor(Color.WHITE);
-        g2d.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);*/
         BufferedImage image = null;
-        switch(direction){
-            case "up":
-                if(spriteNum==1){
-                    image = up1;
-                }
-                if (spriteNum==2) {
-                    image = up2;
-                }
-                break;
-            case "down":
-                if(spriteNum==1){
-                    image = down1;
-                }
-                if (spriteNum==2) {
-                    image = down2;
-                }
-                break;
-            case "left":
-                if(spriteNum==1){
-                    image = left1;
-                }
-                if (spriteNum==2) {
-                    image = left2;
-                }
-                break;
-            case "right":
-                if(spriteNum==1){
-                    image = right1;
-                }
-                if (spriteNum==2) {
-                    image = right2;
-                }
-                break;
+        if((worldX+gamePanel.tileSize>(worldX-gamePanel.player.screenX))&&(worldX-gamePanel.tileSize<(worldX+gamePanel.player.screenX))&&(worldY+gamePanel.tileSize>(worldY-gamePanel.player.screenY))&&(worldY-gamePanel.tileSize<(worldY+gamePanel.player.screenY))){
+            switch(direction){
+                case "up":
+                    if(spriteNum==1){
+                        image = up1;
+                    }
+                    if (spriteNum==2) {
+                        image = up2;
+                    }
+                    break;
+                case "down":
+                    if(spriteNum==1){
+                        image = down1;
+                    }
+                    if (spriteNum==2) {
+                        image = down2;
+                    }
+                    break;
+                case "left":
+                    if(spriteNum==1){
+                        image = left1;
+                    }
+                    if (spriteNum==2) {
+                        image = left2;
+                    }
+                    break;
+                case "right":
+                    if(spriteNum==1){
+                        image = right1;
+                    }
+                    if (spriteNum==2) {
+                        image = right2;
+                    }
+                    break;
+            }
+            //System.out.println("Screen X: "+screenX+" | Screen Y:"+screenY);
+            //System.out.println("World X: "+worldX+" | World Y: "+worldY);
+            g2d.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+            // Troubleshoot the solid area
+            //System.out.println(gamePanel.player.screenX+" - " + solidArea.x + " - " + gamePanel.player.screenY + " - "+ solidArea.y);
+            //g2d.drawRect(screenX+solidArea.x, screenY+solidArea.y, solidArea.width, solidArea.height);
         }
-        g2d.drawImage(image, screenX, screenY, null);
-        // Troubleshoot the solid area
-        g2d.drawRect(screenX+solidArea.x, screenY+solidArea.y, solidArea.width, solidArea.height);
     }
     public void getPlayerImage(){
 

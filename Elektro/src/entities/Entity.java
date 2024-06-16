@@ -23,16 +23,41 @@ public abstract class Entity {
     public String direction;
     public int spriteCounter = 0;
     public int spriteNum = 1;
-    public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
+    public Rectangle solidArea;
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collissionOn = false;
     public int actionLockCounter = 0;
+    String dialogues[] = new String[20];
+    int dialogueIndex = 0;
 
     public Entity(GamePanel gamePanel){
         this.gamePanel = gamePanel;
+        solidArea = new Rectangle(8, 16, 32, 32);
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
-    public void setAction(){
+    public void setAction(){}
+    public void speak(){
+        if(dialogues[dialogueIndex]==null){
+            dialogueIndex=0;
+        }
+        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
+        dialogueIndex++;
+        switch (gamePanel.player.direction){
+            case "up":
+                direction = "down";
+                break;
+            case "down":
+                direction = "up";
+                break;
+            case "left":
+                direction = "right";
+                break;
+            case "right":
+                direction = "left";
+                break;
 
+        }
     }
     public void update(){
         setAction();
@@ -71,7 +96,7 @@ public abstract class Entity {
         BufferedImage image = null;
         int screenX = worldX - gamePanel.player.worldX + gamePanel.player.screenX;
         int screenY = worldY - gamePanel.player.worldY + gamePanel.player.screenY;
-        if((worldX+gamePanel.tileSize>(gamePanel.player.worldX-gamePanel.player.screenX))&&(worldX-gamePanel.tileSize<(gamePanel.player.worldX+gamePanel.player.screenX))&&(worldY+gamePanel.tileSize>(gamePanel.player.worldY-gamePanel.player.screenY))&&(worldY-gamePanel.tileSize<(gamePanel.player.worldY+gamePanel.player.screenY))){
+        if((worldX + gamePanel.tileSize > gamePanel.player.worldX - gamePanel.player.screenX)&&(worldX - gamePanel.tileSize < gamePanel.player.worldX + gamePanel.player.screenX)&&(worldY + gamePanel.tileSize > gamePanel.player.worldY - gamePanel.player.screenY)&&(worldY - gamePanel.tileSize < gamePanel.player.worldY + gamePanel.player.screenY)){
             switch(direction){
                 case "up":
                     if(spriteNum==1){
@@ -106,11 +131,14 @@ public abstract class Entity {
                     }
                     break;
             }
-
+            //System.out.println("Screen X: "+screenX+" | Screen Y:"+screenY);
+            //System.out.println("World X: "+worldX+" | World Y: "+worldY);
             g2d.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
-            // Check hitbox
-            //g2d.drawRect(screenX, screenY, gamePanel.tileSize, gamePanel.tileSize);
+            // Troubleshoot the solid area
+            //System.out.println(gamePanel.player.screenX+" - " + solidArea.x + " - " + gamePanel.player.screenY + " - "+ solidArea.y);
+            //g2d.drawRect(worldX+solidArea.x, worldY+solidArea.y, solidArea.width, solidArea.height);
         }
+
     }
     public BufferedImage setup(String imagePath){
         BufferedImage image = null;

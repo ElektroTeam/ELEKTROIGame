@@ -3,9 +3,11 @@ package game;
 import entities.Entity;
 import entities.player.Player;
 import items.SuperObject;
+import utilities.UtilityTool;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen settings
@@ -17,8 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxScreenRow = 12;
     public final int screenWidth = tileSize * maxScreenCol; // 768 pixels
     public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
-    KeyboardHandler keyboardHandler = new KeyboardHandler(this);
-    Thread gameThread;
+    public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
+    public Thread gameThread;
     public AssetSetter assetSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
     public ColissionChecker colissionChecker = new ColissionChecker(this);
@@ -41,9 +43,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Game settings
     public int gameState;
+    // ENUMS
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-
+    public final int dialogueState = 3;
+    // Logo
+    BufferedImage logo = UtilityTool.setup("/logo/logo.png", this);
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -55,8 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void setUpGame(){
         assetSetter.setObject();
         assetSetter.setNPCs();
-        playMusic(0);
-        gameState = playState;
+        //playMusic(0);
+        gameState = titleState;
 
     }
     public void startGameThread(){
@@ -135,31 +141,39 @@ public class GamePanel extends JPanel implements Runnable {
         if (keyboardHandler.checkDrawTime) {
             drawStart = System.nanoTime();
         }
-        // Tile
-        tileManager.draw(g2d);
-        // Object
-        for(int i = 0; i<objects.length; i++){
-            if(objects[i] != null){
-                objects[i].draw(g2d, this);
+        // Title screen
+        if(gameState == titleState){
+            ui.draw(g2d);
+
+        } else {
+            // Tile
+            tileManager.draw(g2d);
+            // Object
+            for(int i = 0; i<objects.length; i++){
+                if(objects[i] != null){
+                    objects[i].draw(g2d, this);
+                }
+            }
+            // Entity
+            for(int i = 0; i < npcs.length; i++){
+                if(npcs[i]!=null){
+                    npcs[i].draw(g2d);
+                }
+            }
+            // Player
+            player.draw(g2d);
+            // UI
+            ui.draw(g2d);
+            // Debugging
+            if(keyboardHandler.checkDrawTime){
+                long drawEnd = System.nanoTime();
+                long passed = drawEnd - drawStart;
+                g2d.setColor(Color.WHITE);
+                g2d.drawString("Draw time: "+passed,  100, 400);
+                System.out.println("Draw time: "+passed);
             }
         }
-        // Entity
-        for(int i = 0; i < npcs.length; i++){
-            if(npcs[i]!=null){
-                npcs[i].draw(g2d);
-            }
-        }
-        // Player
-        player.draw(g2d);
-        // UI
-        ui.draw(g2d);
-        if(keyboardHandler.checkDrawTime){
-            long drawEnd = System.nanoTime();
-            long passed = drawEnd - drawStart;
-            g2d.setColor(Color.WHITE);
-            g2d.drawString("Draw time: "+passed,  100, 400);
-            System.out.println("Draw time: "+passed);
-        }
+
         g2d.dispose();
     }
     public void playMusic(int i){

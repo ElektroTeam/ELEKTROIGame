@@ -1,29 +1,33 @@
 package entities;
 
 import game.GamePanel;
-import utilities.UtilityTool;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 public class Ema extends Entity{
     public Ema(GamePanel gamePanel) {
         super(gamePanel);
+        setDefaultValues();
+        getEntityImage();
+        setDialogue();
+    }
+    public void setDefaultValues() {
         direction = "down";
         speed = 1;
-        getEntityImage();
+        worldX = gamePanel.tileSize*45;
+        worldY = gamePanel.tileSize*28;
     }
     public void getEntityImage(){
-        up1 = setup("/entities/ema/boy_up_1.png");
-        up2 = setup("/entities/ema/boy_up_2.png");
-        down1 = setup("/entities/ema/boy_down_1.png");
-        down2 = setup("/entities/ema/boy_down_2.png");
-        left1 = setup("/entities/ema/boy_left_1.png");
-        left2 = setup("/entities/ema/boy_left_2.png");
-        right1 = setup("/entities/ema/boy_right_1.png");
-        right2 = setup("/entities/ema/boy_right_2.png");
+        up1 = setup("/entities/ema/ema-back2.png");
+        up2 = setup("/entities/ema/ema-back3.png");
+        down1 = setup("/entities/ema/ema-front2.png");
+        down2 = setup("/entities/ema/ema-front3.png");
+        left1 = setup("/entities/ema/ema-left2.png");
+        left2 = setup("/entities/ema/ema-left3.png");
+        right1 = setup("/entities/ema/ema-right2.png");
+        right2 = setup("/entities/ema/ema-right3.png");
+    }
+    public void setDialogue(){
+        dialogues[0] = "Send you my love on a wire...\nLift you up every time...\nEveryone ooh, pulls away, ooh...\nFrom you, ooh-ohh\nOoh-ooh, ooh ooh";
     }
     public void setAction(){
         actionLockCounter++;
@@ -42,5 +46,9 @@ public class Ema extends Entity{
             actionLockCounter = 0;
         }
 
+    }
+    @Override
+    public void speak() {
+        super.speak();
     }
 }

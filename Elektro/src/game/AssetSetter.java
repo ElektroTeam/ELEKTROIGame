@@ -12,7 +12,5 @@ public class AssetSetter {
     }
     public void setNPCs(){
         gamePanel.npcs[0] = new Ema(gamePanel);
-        gamePanel.npcs[0].worldX = gamePanel.tileSize*21;
-        gamePanel.npcs[0].worldY = gamePanel.tileSize*21;
     }
 }
