@@ -1,14 +1,18 @@
 package game;
 
+import items.Heart;
+import items.SuperObject;
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DecimalFormat;
 
 public class UI {
     GamePanel gamePanel;
     Graphics2D g2d;
     Font arial_40, arial_80B, purisaBold;
+    BufferedImage heart_full, heart_half, heart_blank;
     public String currentDialogue = "";
     public int commandNum = 0;
 
@@ -26,7 +30,10 @@ public class UI {
         } catch (Exception e){
             e.printStackTrace();
         }
-
+        SuperObject heart = new Heart(gamePanel);
+        heart_full = heart.image;
+        heart_half = heart.image2;
+        heart_blank = heart.image3;
 
     }
     public void draw(Graphics2D g2d){
@@ -38,11 +45,41 @@ public class UI {
         if(gamePanel.gameState == gamePanel.titleState) {
             drawTitleScreen();
         } else if(gamePanel.gameState == gamePanel.playState){
-
+            if(gamePanel.developerMode){
+                drawDeveloperModeWindow();
+            }
+            drawPlayerLife();
         } else if (gamePanel.gameState == gamePanel.pauseState){
+            drawPlayerLife();
             drawPauseScreen();
         } else if(gamePanel.gameState == gamePanel.dialogueState){
+            drawPlayerLife();
             drawDialogueScreen();
+        }
+    }
+    public void drawPlayerLife(){
+        int x = gamePanel.tileSize/2;
+        int y = gamePanel.tileSize/2;
+        int i = 0;
+        // Draw blank heart
+        while(i < gamePanel.player.maxLife/2){
+            g2d.drawImage(heart_blank, x, y, null);
+            i++;
+            x += gamePanel.tileSize;
+        }
+        // Reset
+        x = gamePanel.tileSize/2;
+        y = gamePanel.tileSize/2;
+        i = 0;
+        // Draw current life
+        while(i < gamePanel.player.life){
+            g2d.drawImage(heart_half, x, y, null);
+            i++;
+            if(i < gamePanel.player.life){
+                g2d.drawImage(heart_full, x, y, null);
+            }
+            i++;
+            x += gamePanel.tileSize;
         }
     }
     public void drawTitleScreen(){
@@ -120,7 +157,22 @@ public class UI {
         g2d.setColor(color);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawRoundRect(x+5, y+5, width-10, height-10, 35, 35);
-
+    }
+    public void drawDeveloperModeWindow(){
+        int x, y;
+        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2d.setColor(Color.WHITE);
+        String text = "DEVELOPER MODE";
+        x = getXforCenteredText(text);
+        y = 20;
+        g2d.drawString(text, x, y);
+        x = 10;
+        y = 400;
+        int lineHeight = 20;
+        g2d.drawString("Player X: "+(gamePanel.player.worldX/gamePanel.tileSize)+" | Player Y: "+(gamePanel.player.worldY/gamePanel.tileSize), x, y);
+        y += lineHeight;
+        g2d.drawString("Ema X: "+(gamePanel.npcs[0].worldX/gamePanel.tileSize)+ " | Ema Y: "+(gamePanel.npcs[0].worldY/gamePanel.tileSize), x, y);
+        y += lineHeight;
     }
     public int getXforCenteredText(String text){
         int length = (int)g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();

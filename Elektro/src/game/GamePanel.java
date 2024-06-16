@@ -24,6 +24,8 @@ public class GamePanel extends JPanel implements Runnable {
     public AssetSetter assetSetter = new AssetSetter(this);
     public TileManager tileManager = new TileManager(this);
     public ColissionChecker colissionChecker = new ColissionChecker(this);
+    public EventHandler eventHandler = new EventHandler(this);
+    public boolean developerMode = false;
     // Music and sound effect
     Sound music = new Sound();
     Sound soundEffect = new Sound();
@@ -144,7 +146,6 @@ public class GamePanel extends JPanel implements Runnable {
         // Title screen
         if(gameState == titleState){
             ui.draw(g2d);
-
         } else {
             // Tile
             tileManager.draw(g2d);
@@ -168,8 +169,9 @@ public class GamePanel extends JPanel implements Runnable {
             if(keyboardHandler.checkDrawTime){
                 long drawEnd = System.nanoTime();
                 long passed = drawEnd - drawStart;
+                g2d.setFont(getFont().deriveFont(32F));
                 g2d.setColor(Color.WHITE);
-                g2d.drawString("Draw time: "+passed,  100, 400);
+                g2d.drawString("Draw time: "+passed,  10, 570);
                 System.out.println("Draw time: "+passed);
             }
         }

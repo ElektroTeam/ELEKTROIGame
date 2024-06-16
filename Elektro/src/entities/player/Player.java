@@ -27,9 +27,10 @@ public class Player extends Entity {
         // When looking in the map file, use [y][2x] or [line][column]
         worldX = gamePanel.tileSize*42;
         worldY = gamePanel.tileSize*27;
-
         speed = 3;
         direction = "down";
+        maxLife = 6;
+        life = maxLife;
     }
     @Override
     public void update(){
