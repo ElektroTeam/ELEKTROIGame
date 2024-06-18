@@ -48,6 +48,8 @@ public class KeyboardHandler implements KeyListener {
                 }
                 if(code == KeyEvent.VK_R){
                     gamePanel.tileManager.loadMap("/maps/house.txt");
+                    gamePanel.drawToTemptScreen();
+                    gamePanel.drawToScreen();
                     System.out.println("Reloaded map.");
                 }
                 if(code == KeyEvent.VK_T){
@@ -62,74 +64,134 @@ public class KeyboardHandler implements KeyListener {
         }
         // Title state
         if (gamePanel.gameState == gamePanel.titleState) {
-            if(code == KeyEvent.VK_W) {
-                gamePanel.ui.commandNum--;
-                if(gamePanel.ui.commandNum < 0) {
-                    gamePanel.ui.commandNum = 2;
-                }
-            } else if(code == KeyEvent.VK_S) {
-                gamePanel.ui.commandNum++;
-                if(gamePanel.ui.commandNum > 2) {
-                    gamePanel.ui.commandNum = 0;
-                }
-            } else if(code == KeyEvent.VK_ENTER) {
-                if(gamePanel.ui.commandNum == 0) {
-                    //gamePanel.ui.titleScreenState = 1;
-                    gamePanel.gameState = gamePanel.playState;
-                } else if(gamePanel.ui.commandNum == 1) {
-                    // Later
-                } else if(gamePanel.ui.commandNum == 2) {
-                    System.exit(0);
-                }
-            }
+            titleState(code);
         // Play state
         } else if(gamePanel.gameState == gamePanel.playState){
-            if (code == KeyEvent.VK_W) {
-                upPressed = true;
-            }
-            if (code == KeyEvent.VK_S) {
-                downPressed = true;
-            }
-            if (code == KeyEvent.VK_A) {
-                leftPressed = true;
-            }
-            if (code == KeyEvent.VK_D) {
-                rightPressed = true;
-            }
-            if(code == KeyEvent.VK_ESCAPE) {
-                escapePressed = true;
-                gamePanel.gameState = gamePanel.pauseState;
-            }
-            if(code == KeyEvent.VK_ENTER) {
-                enterPressed = true;
-            }
-
+            playState(code);
         // Pause state
         } else if(gamePanel.gameState == gamePanel.pauseState){
-            if(code == KeyEvent.VK_ESCAPE) {
-                gamePanel.gameState = gamePanel.playState;
-            }
+            pauseState(code);
         // Dialogue state
         } else if(gamePanel.gameState == gamePanel.dialogueState){
-            if(code == KeyEvent.VK_ENTER) {
+            dialogueState(code);
+        // Options state
+        } else if(gamePanel.gameState == gamePanel.optionsState){
+            optionsState(code);
+        }
+    }
+    public void titleState(int code){
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gamePanel.ui.commandNum--;
+            if(gamePanel.ui.commandNum < 0) {
+                gamePanel.ui.commandNum = 2;
+            }
+        } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gamePanel.ui.commandNum++;
+            if(gamePanel.ui.commandNum > 2) {
+                gamePanel.ui.commandNum = 0;
+            }
+        } else if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            if(gamePanel.ui.commandNum == 0) {
+                //gamePanel.ui.titleScreenState = 1;
                 gamePanel.gameState = gamePanel.playState;
+                gamePanel.playMusic(0);
+            } else if(gamePanel.ui.commandNum == 1) {
+                // Later
+            } else if(gamePanel.ui.commandNum == 2) {
+                System.exit(0);
             }
         }
     }
-
+    public void playState(int code) {
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            upPressed = true;
+        }
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            downPressed = true;
+        }
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            leftPressed = true;
+        }
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            rightPressed = true;
+        }
+        if(code == KeyEvent.VK_ESCAPE) {
+            escapePressed = true;
+            //gamePanel.gameState = gamePanel.pauseState;
+            gamePanel.gameState = gamePanel.optionsState;
+        }
+        if(code == KeyEvent.VK_ENTER) {
+            enterPressed = true;
+        }
+    }
+    public void dialogueState(int code){
+        if(code == KeyEvent.VK_ENTER) {
+            gamePanel.gameState = gamePanel.playState;
+        }
+    }
+    public void pauseState(int code){
+        if(code == KeyEvent.VK_ESCAPE){
+            gamePanel.gameState = gamePanel.playState;
+        }
+    }
+    public void optionsState(int code){
+        if(code == KeyEvent.VK_ESCAPE) {
+            gamePanel.gameState = gamePanel.playState;
+        } else if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+        }
+        int maxCommandNum = 0;
+        switch (gamePanel.ui.subState){
+            case 0:
+                maxCommandNum = 5;
+                break;
+            case 3:
+                maxCommandNum = 1;
+                break;
+        }
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gamePanel.ui.commandNum--;
+            if(gamePanel.ui.commandNum < 0) {
+                gamePanel.ui.commandNum = maxCommandNum;
+            }
+        } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gamePanel.ui.commandNum++;
+            if(gamePanel.ui.commandNum > maxCommandNum) {
+                gamePanel.ui.commandNum = 0;
+            }
+        } else if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            if(gamePanel.ui.subState == 0){
+                if((gamePanel.ui.commandNum==1)&&(gamePanel.music.volumeScale > 0)) {
+                    gamePanel.music.volumeScale--;
+                    gamePanel.music.checkVolume();
+                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.soundEffect.volumeScale > 0)) {
+                    gamePanel.soundEffect.volumeScale--;
+                }
+            }
+        } else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            if(gamePanel.ui.subState == 0){
+                if((gamePanel.ui.commandNum==1)&&(gamePanel.music.volumeScale < 5)) {
+                    gamePanel.music.volumeScale++;
+                    gamePanel.music.checkVolume();
+                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.soundEffect.volumeScale < 5)) {
+                    gamePanel.soundEffect.volumeScale++;
+                }
+            }
+        }
+    }
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
-        if (code == KeyEvent.VK_W) {
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             upPressed = false;
         }
-        if (code == KeyEvent.VK_S) {
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             downPressed = false;
         }
-        if (code == KeyEvent.VK_A) {
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
             leftPressed = false;
         }
-        if (code == KeyEvent.VK_D) {
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = false;
         }
     }

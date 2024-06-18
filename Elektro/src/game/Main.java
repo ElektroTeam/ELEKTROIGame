@@ -1,20 +1,22 @@
-import game.GamePanel;
+package game;
 
 import javax.swing.*;
 
 /**
- * Main class to run the program.
+ * game.Main class to run the program.
  */
 public class Main {
     /**
-     * Main static class where we load the game.
+     * game.Main static class where we load the game.
      * @param args
      */
+    public static JFrame window;
     public static void main(String[] args) {
-        JFrame window = new JFrame();
+        window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Elektro I: You Can (Not) Redo");
+        window.setUndecorated(true);
 
         GamePanel gamePanel = new GamePanel();
         window.add(gamePanel);

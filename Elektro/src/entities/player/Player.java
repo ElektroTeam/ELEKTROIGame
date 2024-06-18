@@ -94,6 +94,7 @@ public class Player extends Entity {
     public void interactNPC(int index){
         if(index!=999){
             if(gamePanel.keyboardHandler.enterPressed){
+                //System.out.println("Enter pressed, entering dialogue mode");
                 gamePanel.gameState = gamePanel.dialogueState;
                 gamePanel.npcs[index].speak();
             }

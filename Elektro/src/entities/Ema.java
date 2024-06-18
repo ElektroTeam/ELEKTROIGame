@@ -27,7 +27,7 @@ public class Ema extends Entity{
         right2 = setup("/entities/ema/ema-right3.png");
     }
     public void setDialogue(){
-        dialogues[0] = "Send you my love on a wire...\nLift you up every time...\nEveryone ooh, pulls away, ooh...\nFrom you, ooh-ohh\nOoh-ooh, ooh ooh";
+        dialogues[0] = "Send you my love on a wire...\nLift you up every time...\nEveryone ooh, pulls away, ooh...\nFrom you, ooh-ohh\nOoh-ooh, ooh ooh.";
     }
     public void setAction(){
         actionLockCounter++;
