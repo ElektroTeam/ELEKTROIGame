@@ -9,6 +9,7 @@ public class Ema extends Entity{
         setDefaultValues();
         getEntityImage();
         setDialogue();
+        dialogueSet = -1;
     }
     public void setDefaultValues() {
         direction = "down";
@@ -27,7 +28,12 @@ public class Ema extends Entity{
         right2 = setup("/entities/ema/ema-right3.png");
     }
     public void setDialogue(){
-        dialogues[0] = "Send you my love on a wire...\nLift you up every time...\nEveryone ooh, pulls away, ooh...\nFrom you, ooh-ohh\nOoh-ooh, ooh ooh.";
+        dialogues[0][0] = "Send you my love on a wire...\nLift you up every time...\nEveryone ooh, pulls away, ooh...\nFrom you, ooh-ooh\nOoh-ooh, ooh ooh.";
+        dialogues[0][1] = "Ooh-ooh";
+
+        dialogues[1][0] = "Hi";
+        dialogues[1][1] = "How are you doing?";
+
     }
     public void setAction(){
         actionLockCounter++;
@@ -49,6 +55,14 @@ public class Ema extends Entity{
     }
     @Override
     public void speak() {
-        super.speak();
+        facePlayer();
+        startDialogue(this, dialogueSet);
+        dialogueSet++;
+        if(dialogues[dialogueSet][0]==null){
+            // Start over again
+            dialogueSet = 0;
+            // Repeat the last dialogue set
+            // dialogueSet--;
+        }
     }
 }

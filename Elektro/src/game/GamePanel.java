@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyboardHandler keyboardHandler = new KeyboardHandler(this);
     public Thread gameThread;
     public AssetSetter assetSetter = new AssetSetter(this);
-    public TileManager tileManager = new TileManager(this);
+    public TileManager tileManager;
     public ColissionChecker colissionChecker = new ColissionChecker(this);
     public EventHandler eventHandler = new EventHandler(this);
     public boolean developerMode = false;
@@ -36,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable {
     // World settings
     public int maxWorldCol = 50;
     public int maxWorldRow = 50;
+    public final int maxMaps = 10;
+    public int currentMap = 0;
     public final int worldWidth = tileSize*maxWorldCol;
     public final int worldHeight = tileSize*maxWorldRow;
     // Entities and objects
@@ -56,8 +58,12 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int dialogueState = 3;
     public final int optionsState = 4;
+    public final int gameOverState = 5;
+    public final int mapState = 6;
     // Logo
     BufferedImage logo = UtilityTool.setup("/logo/logo.png", this);
+    public Map1 map1;
+    public Map2 map2;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -67,14 +73,29 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
     public void setUpGame(){
-        assetSetter.setObject();
+        assetSetter.setObjects();
         assetSetter.setNPCs();
         //playMusic(0);
         gameState = titleState;
         tempScreen = new BufferedImage(screenWidth, screenHeight, BufferedImage.TYPE_INT_ARGB);
         g2d = (Graphics2D) tempScreen.getGraphics();
         setFullScreen();
-
+        map1 = new Map1(this);
+        map2 = new Map2(this);
+        map1.loadMap();
+        map2.loadMap();
+        tileManager = map2.tileManager;
+    }
+    public void retry(){
+        player.setDefaultPositions();
+        assetSetter.setNPCs();
+        assetSetter.setObjects();
+    }
+    public void restart(){
+        player.setDefaultValues();
+        player.setDefaultPositions();
+        assetSetter.setNPCs();
+        assetSetter.setObjects();
     }
     public void setFullScreen(){
         // Get local screen device
@@ -161,8 +182,15 @@ public class GamePanel extends JPanel implements Runnable {
             drawStart = System.nanoTime();
         }
         // Title screen
-        if(gameState == titleState){
+        if(gameState == titleState) {
             ui.draw(g2d);
+        } else if(gameState == mapState){
+            System.out.println("Draw map");
+            if(tileManager == map1.tileManager){
+                map1.drawFullMapScreen(g2d);
+            } else {
+                map2.drawFullMapScreen(g2d);
+            }
         } else {
             // Tile
             tileManager.draw(g2d);

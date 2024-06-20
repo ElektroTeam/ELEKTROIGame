@@ -11,6 +11,7 @@ public class Player extends Entity {
     private KeyboardHandler keyboardHandler;
     public final int screenX;
     public final int screenY;
+    public int defaultXPosition, defaultYPosition;
     public int standCounter;
     public Player(GamePanel gamePanel, KeyboardHandler keyboardHandler) {
         super(gamePanel);
@@ -19,18 +20,25 @@ public class Player extends Entity {
         solidAreaDefaultY = solidArea.y;
         screenX = (gamePanel.screenWidth/2)-(gamePanel.tileSize/2);
         screenY = (gamePanel.screenHeight/2)-(gamePanel.tileSize/2);
+        defaultXPosition = gamePanel.tileSize*42;
+        defaultYPosition = gamePanel.tileSize*27;
         setDefaultValues();
         getPlayerImage();
     }
     public void setDefaultValues(){
         // Default spawn position
         // When looking in the map file, use [y][2x] or [line][column]
-        worldX = gamePanel.tileSize*42;
-        worldY = gamePanel.tileSize*27;
+        worldX = defaultXPosition;
+        worldY = defaultYPosition;
         speed = 3;
         direction = "down";
         maxLife = 6;
         life = maxLife;
+    }
+    public void setDefaultPositions(){
+        worldX = defaultXPosition;
+        worldY = defaultYPosition;
+        direction = "down";
     }
     @Override
     public void update(){

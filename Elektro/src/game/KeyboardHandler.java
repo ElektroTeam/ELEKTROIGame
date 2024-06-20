@@ -39,18 +39,22 @@ public class KeyboardHandler implements KeyListener {
         if(gamePanel.developerMode){
             if(gamePanel.gameState == gamePanel.titleState){
                 // Skip loading screens
-            }
-            if(gamePanel.gameState == gamePanel.playState) {
+            } else if(gamePanel.gameState == gamePanel.playState) {
                 if(code == KeyEvent.VK_L){
                     // Get current locations
                     System.out.println("Player X: "+(gamePanel.player.worldX/gamePanel.tileSize)+" | Player Y: "+(gamePanel.player.worldY/gamePanel.tileSize));
                     System.out.println("Ema X: "+(gamePanel.npcs[0].worldX/gamePanel.tileSize)+ " | Ema Y: "+(gamePanel.npcs[0].worldY/gamePanel.tileSize));
                 }
                 if(code == KeyEvent.VK_R){
-                    gamePanel.tileManager.loadMap("/maps/house.txt");
+                    /*gamePanel.tileManager.loadMap("/maps/house.txt");
+                    gamePanel.tileManager.loadMap("/maps/dessert.txt");*/
                     gamePanel.drawToTemptScreen();
                     gamePanel.drawToScreen();
                     System.out.println("Reloaded map.");
+                }
+                if(code == KeyEvent.VK_O){
+                    System.out.println("Entered game over state.");
+                    gamePanel.gameState = gamePanel.gameOverState;
                 }
                 if(code == KeyEvent.VK_T){
                     // Debugging
@@ -59,6 +63,19 @@ public class KeyboardHandler implements KeyListener {
                     } else if(checkDrawTime){
                         checkDrawTime = false;
                     }
+                }
+                if(code == KeyEvent.VK_U){
+                    if(gamePanel.tileManager == gamePanel.map1.tileManager){
+                        gamePanel.tileManager = gamePanel.map2.tileManager;
+                    } else {
+                        gamePanel.tileManager = gamePanel.map1.tileManager;
+                    }
+                }
+            } else if(gamePanel.gameState == gamePanel.gameOverState){
+                if(code == KeyEvent.VK_O){
+                    System.out.println("Exited game over state.");
+                    gamePanel.gameState = gamePanel.playState;
+                    // Heal(?)
                 }
             }
         }
@@ -75,8 +92,41 @@ public class KeyboardHandler implements KeyListener {
         } else if(gamePanel.gameState == gamePanel.dialogueState){
             dialogueState(code);
         // Options state
-        } else if(gamePanel.gameState == gamePanel.optionsState){
+        } else if(gamePanel.gameState == gamePanel.optionsState) {
             optionsState(code);
+        // Game Over state
+        } else if(gamePanel.gameState == gamePanel.gameOverState){
+            gameOverState(code);
+        // Map state
+        } else if(gamePanel.gameState == gamePanel.mapState){
+            mapState(code);
+        }
+
+    }
+    public void mapState(int code){
+        if(code == KeyEvent.VK_M){
+            gamePanel.gameState = gamePanel.playState;
+        }
+    }
+    public void gameOverState(int code){
+        if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gamePanel.ui.commandNum--;
+            if(gamePanel.ui.commandNum < 0) {
+                gamePanel.ui.commandNum = 1;
+            }
+        } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gamePanel.ui.commandNum++;
+            if(gamePanel.ui.commandNum > 1) {
+                gamePanel.ui.commandNum = 0;
+            }
+        } else if(code == KeyEvent.VK_ENTER){
+            if(gamePanel.ui.commandNum == 0) {
+                gamePanel.gameState = gamePanel.playState;
+                gamePanel.retry();
+            } else if(gamePanel.ui.commandNum == 1) {
+                gamePanel.gameState = gamePanel.titleState;
+                gamePanel.restart();
+            }
         }
     }
     public void titleState(int code){
@@ -115,6 +165,9 @@ public class KeyboardHandler implements KeyListener {
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             rightPressed = true;
         }
+        if(code == KeyEvent.VK_M){
+            gamePanel.gameState = gamePanel.mapState;
+        }
         if(code == KeyEvent.VK_ESCAPE) {
             escapePressed = true;
             //gamePanel.gameState = gamePanel.pauseState;
@@ -126,7 +179,7 @@ public class KeyboardHandler implements KeyListener {
     }
     public void dialogueState(int code){
         if(code == KeyEvent.VK_ENTER) {
-            gamePanel.gameState = gamePanel.playState;
+            enterPressed = true;
         }
     }
     public void pauseState(int code){

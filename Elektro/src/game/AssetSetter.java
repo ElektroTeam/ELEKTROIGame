@@ -7,7 +7,7 @@ public class AssetSetter {
     public AssetSetter(GamePanel gamePanel){
         this.gamePanel = gamePanel;
     }
-    public void setObject(){
+    public void setObjects(){
         
     }
     public void setNPCs(){

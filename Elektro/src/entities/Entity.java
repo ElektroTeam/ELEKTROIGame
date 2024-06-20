@@ -27,8 +27,9 @@ public abstract class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean collissionOn = false;
     public int actionLockCounter = 0;
-    String dialogues[] = new String[20];
-    int dialogueIndex = 0;
+    public String dialogues[][] = new String[20][20];
+    public int dialogueSet = 0;
+    public int dialogueIndex = 0;
     public int maxLife;
     public int life;
 
@@ -40,11 +41,14 @@ public abstract class Entity {
     }
     public void setAction(){}
     public void speak(){
-        if(dialogues[dialogueIndex]==null){
-            dialogueIndex=0;
-        }
-        gamePanel.ui.currentDialogue = dialogues[dialogueIndex];
-        dialogueIndex++;
+
+    }
+    public void startDialogue(Entity entity, int setNum){
+        gamePanel.gameState = gamePanel.dialogueState;
+        gamePanel.ui.npc = entity;
+        dialogueSet = setNum;
+    }
+    public void facePlayer(){
         switch (gamePanel.player.direction){
             case "up":
                 direction = "down";

@@ -1,5 +1,6 @@
 package game;
 
+import entities.Entity;
 import items.Heart;
 import items.SuperObject;
 
@@ -16,6 +17,9 @@ public class UI {
     public String currentDialogue = "";
     public int commandNum = 0;
     public int subState = 0;
+    public Entity npc;
+    public int charIndex = 0;
+    public String combinedText = "";
 
     public UI(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -39,7 +43,8 @@ public class UI {
     }
     public void draw(Graphics2D g2d){
         this.g2d = g2d;
-        g2d.setFont(purisaBold);
+        //g2d.setFont(purisaBold);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 20));
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.setColor(Color.WHITE);
         // Title state
@@ -66,8 +71,47 @@ public class UI {
             if(gamePanel.developerMode){
                 drawDeveloperModeWindow();
             }
-            drawOptionsScreen();
             drawPlayerLife();
+            drawOptionsScreen();
+        } else if(gamePanel.gameState == gamePanel.gameOverState){
+            if(gamePanel.developerMode){
+                drawDeveloperModeWindow();
+            }
+            drawPlayerLife();
+            drawGameOverScreen();
+        }
+    }
+    public void drawGameOverScreen(){
+        g2d.setColor(new Color(0, 0, 0, 150));
+        g2d.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 110F));
+        String text;
+        int x, y;
+        text = "Game Over";
+        // Shadow
+        g2d.setColor(Color.BLACK);
+        x = getXforCenteredText(text);
+        y = gamePanel.tileSize*4;
+        g2d.drawString(text, x, y);
+        // Main text
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, x-4, y-4);
+        // Retry
+        g2d.setFont(g2d.getFont().deriveFont(50F));
+        text = "Retry";
+        x = getXforCenteredText(text);
+        y += gamePanel.tileSize*4;
+        g2d.drawString(text, x, y);
+        if(commandNum == 0){
+            g2d.drawString(">", x-40, y);
+        }
+        // Back to the title screen
+        text = "Quit";
+        x = getXforCenteredText(text);
+        y += 55;
+        g2d.drawString(text, x, y);
+        if(commandNum == 1){
+            g2d.drawString(">", x-40, y);
         }
     }
     public void drawPlayerLife(){
@@ -156,6 +200,29 @@ public class UI {
         g2d.setFont(g2d.getFont().deriveFont(Font.PLAIN, 16F));
         x += gamePanel.tileSize;
         y += gamePanel.tileSize;
+        if(npc.dialogues[npc.dialogueSet][npc.dialogueIndex]!=null){
+            //currentDialogue = npc.dialogues[npc.dialogueSet][npc.dialogueIndex];
+            char characters[] = npc.dialogues[npc.dialogueSet][npc.dialogueIndex].toCharArray();
+            if(charIndex < characters.length){
+                String s = String.valueOf(characters[charIndex]);
+                combinedText = combinedText + s;
+                currentDialogue = combinedText;
+                charIndex++;
+            }
+            if(gamePanel.keyboardHandler.enterPressed){
+                charIndex = 0;
+                combinedText = "";
+                if(gamePanel.gameState == gamePanel.dialogueState){
+                    npc.dialogueIndex++;
+                    gamePanel.keyboardHandler.enterPressed = false;
+                }
+            }
+        } else {
+            npc.dialogueIndex = 0;
+            if(gamePanel.gameState == gamePanel.dialogueState){
+                gamePanel.gameState = gamePanel.playState;
+            }
+        }
         drawMultipleLines(currentDialogue, x, y);
 
     }
@@ -263,7 +330,7 @@ public class UI {
             g2d.drawString(">", textX-25, textY);
             if(gamePanel.keyboardHandler.enterPressed){
                 gamePanel.gameState = gamePanel.playState;
-                commandNum = 0;
+                commandNum = 0; 
             }
         }
 

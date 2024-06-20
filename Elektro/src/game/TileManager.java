@@ -17,11 +17,11 @@ public class TileManager{
     ArrayList<String> fileNames = new ArrayList<>();
     ArrayList<String> colissionStatus = new ArrayList<>();
 
-    public TileManager(GamePanel gamePanel){
+    public TileManager(GamePanel gamePanel, String mapName){
         this.gamePanel = gamePanel;
 
         // Read tile data
-        InputStream inputStream = getClass().getResourceAsStream("/maps/house_tiles.txt");
+        InputStream inputStream = getClass().getResourceAsStream("/maps/"+mapName+"_tiles.txt");
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
         // Getting tile names and conlission info from file
@@ -39,7 +39,7 @@ public class TileManager{
         tiles = new Tile[fileNames.size()];
         getTileImage();
         // Get the max world col & row
-        inputStream = getClass().getResourceAsStream("/maps/house.txt");
+        inputStream = getClass().getResourceAsStream("/maps/"+mapName+".txt");
         bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         try{
             line = bufferedReader.readLine();
@@ -51,7 +51,7 @@ public class TileManager{
         } catch (IOException e){
             e.printStackTrace();
         }
-        loadMap("/maps/house.txt");
+        loadMap("/maps/"+mapName+".txt");
     }
     public void getTileImage(){
         for(int i = 0; i < fileNames.size(); i++){
