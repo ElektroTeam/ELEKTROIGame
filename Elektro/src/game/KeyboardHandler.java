@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 public class KeyboardHandler implements KeyListener {
     private GamePanel gamePanel;
     public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, escapePressed;

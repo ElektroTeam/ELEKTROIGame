@@ -1,4 +1,4 @@
-package game;
+package game.sound.manager;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -10,10 +10,10 @@ public class Sound {
     Clip clip;
     URL soundURL[] = new URL[30];
     FloatControl floatControl;
-   int volumeScale = 3;
+   public int volumeScale = 3;
    float volume;
     public Sound() {
-        soundURL[0] = getClass().getResource("/sounds/BlueBoyAdventure.wav");
+        soundURL[0] = getClass().getResource("/sounds/backgrounds/BlueBoyAdventure.wav");
         soundURL[1] = getClass().getResource("/sounds/coin.wav");
         soundURL[2] = getClass().getResource("/sounds/powerup.wav");
         soundURL[3] = getClass().getResource("/sounds/unlock.wav");

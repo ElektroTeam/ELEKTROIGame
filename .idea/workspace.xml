@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f280d5b1-7dd7-42fa-8a2a-f7d03927e8e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Elektro/Elektro.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Elektro/Elektro.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Elektro/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/Elektro/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Elektro/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Elektro/src/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Elektro/src/entities/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Elektro/src/entities/Player.java" afterDir="false" />
-    </list>
+    <list default="true" id="f280d5b1-7dd7-42fa-8a2a-f7d03927e8e1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +9,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
@@ -23,24 +21,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Alex&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/ae22mp/Code/GitHub/ProyectoElektro&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "GUI",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Abraham/Desktop/UCA/Elektro GUI/ProyectoElektro/Elektro",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
-      </set>
-    </attachedChunks>
-  </component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -52,6 +43,7 @@
       <workItem from="1715129694079" duration="30000" />
       <workItem from="1715711085569" duration="121000" />
       <workItem from="1715816051953" duration="30000" />
+      <workItem from="1718847224763" duration="177000" />
     </task>
     <servers />
   </component>

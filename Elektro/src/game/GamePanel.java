@@ -2,6 +2,7 @@ package game;
 
 import entities.Entity;
 import entities.player.Player;
+import game.sound.manager.Sound;
 import items.SuperObject;
 import utilities.UtilityTool;
 
