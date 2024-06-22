@@ -1,5 +1,7 @@
 package game;
 
+import game.sound.enums.SoundType;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -145,7 +147,7 @@ public class KeyboardHandler implements KeyListener {
             if(gamePanel.ui.commandNum == 0) {
                 //gamePanel.ui.titleScreenState = 1;
                 gamePanel.gameState = gamePanel.playState;
-                gamePanel.playMusic(0);
+                gamePanel.playMusic(SoundType.BACKGROUND);
             } else if(gamePanel.ui.commandNum == 1) {
                 // Later
             } else if(gamePanel.ui.commandNum == 2) {
@@ -215,20 +217,23 @@ public class KeyboardHandler implements KeyListener {
             }
         } else if(code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
             if(gamePanel.ui.subState == 0){
-                if((gamePanel.ui.commandNum==1)&&(gamePanel.music.volumeScale > 0)) {
-                    gamePanel.music.volumeScale--;
-                    gamePanel.music.checkVolume();
-                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.soundEffect.volumeScale > 0)) {
-                    gamePanel.soundEffect.volumeScale--;
+                if((gamePanel.ui.commandNum==1)&&(gamePanel.musicManager.getVolumeScale() > 0)) {
+                    gamePanel.setMusicVolumeScale(gamePanel.musicManager.getVolumeScale() - 1);
+
+
+                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.musicManager.getVolumeScale() > 0)) {
+                    gamePanel.setSoundEffectVolumeScale(gamePanel.soundEffectManager.getVolumeScale() - 1);
+
                 }
             }
         } else if(code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
             if(gamePanel.ui.subState == 0){
-                if((gamePanel.ui.commandNum==1)&&(gamePanel.music.volumeScale < 5)) {
-                    gamePanel.music.volumeScale++;
-                    gamePanel.music.checkVolume();
-                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.soundEffect.volumeScale < 5)) {
-                    gamePanel.soundEffect.volumeScale++;
+                if((gamePanel.ui.commandNum==1)&&(gamePanel.musicManager.getVolumeScale() < 5)) {
+                    gamePanel.setMusicVolumeScale(gamePanel.musicManager.getVolumeScale() + 1);
+
+
+                } else if((gamePanel.ui.commandNum==2)&&(gamePanel.musicManager.getVolumeScale() < 5)) {
+                    gamePanel.setSoundEffectVolumeScale(gamePanel.soundEffectManager.getVolumeScale() + 1);
                 }
             }
         }

@@ -2,7 +2,8 @@ package game;
 
 import entities.Entity;
 import entities.player.Player;
-import game.sound.manager.Sound;
+import game.sound.enums.SoundType;
+import game.sound.manager.SoundManager;
 import items.SuperObject;
 import utilities.UtilityTool;
 
@@ -27,9 +28,14 @@ public class GamePanel extends JPanel implements Runnable {
     public ColissionChecker colissionChecker = new ColissionChecker(this);
     public EventHandler eventHandler = new EventHandler(this);
     public boolean developerMode = false;
+
     // Music and sound effect
-    Sound music = new Sound();
-    Sound soundEffect = new Sound();
+    public SoundManager musicManager;
+    public SoundManager soundEffectManager;
+    private SoundType currentMusic;
+
+    //Sound music = new Sound();
+    //Sound soundEffect = new Sound();
     // UI
     public UI ui = new UI(this);
     // FPS
@@ -53,6 +59,8 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean fullScreenOn = false;
     // Game settings
     public int gameState;
+
+
     // ENUMS
     public final int titleState = 0;
     public final int playState = 1;
@@ -67,6 +75,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Map2 map2;
 
     public GamePanel(){
+        musicManager = new SoundManager();
+        soundEffectManager = new SoundManager();
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
@@ -227,17 +237,47 @@ public class GamePanel extends JPanel implements Runnable {
         graphics.drawImage(tempScreen, 0, 0, screenWidth2, screenHeight2, null);
         graphics.dispose();
     }
-    public void playMusic(int i){
-        music.setFile(i);
-        music.play();
-        music.loop();
+//    public void playMusic(int i){
+//        music.setFile(i);
+//        music.play();
+//        music.loop();
+//    }
+//    public void stopMusic(){
+//        music.stop();
+//    }
+//    public void playSoundEffect(int i){
+//        soundEffect.setFile(i);
+//        soundEffect.play();
+//    }
+
+    //Music
+    public void playMusic(SoundType soundType) {
+        if (currentMusic != null) {
+            musicManager.stop(currentMusic);
+        }
+        musicManager.play(soundType);
+        musicManager.loop(soundType);
+        currentMusic = soundType;
     }
-    public void stopMusic(){
-        music.stop();
+
+    public void stopMusic() {
+        if (currentMusic != null) {
+            musicManager.stop(currentMusic);
+            currentMusic = null;
+        }
     }
-    public void playSoundEffect(int i){
-        soundEffect.setFile(i);
-        soundEffect.play();
+
+    public void playSoundEffect(SoundType soundType) {
+        soundEffectManager.play(soundType);
+    }
+
+    public void setMusicVolumeScale(int volumeScale) {
+        musicManager.setVolumeScale(volumeScale);
+    }
+
+    public void setSoundEffectVolumeScale(int volumeScale) {
+        soundEffectManager.setVolumeScale(volumeScale);
     }
 }
+
 

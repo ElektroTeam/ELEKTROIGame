@@ -1,6 +1,7 @@
 package game;
 
 import entities.Entity;
+import game.sound.enums.SoundType;
 import items.Heart;
 import items.SuperObject;
 
@@ -345,12 +346,12 @@ public class UI {
         // Music volume
         textY += gamePanel.tileSize;
         g2d.drawRect(textX, textY, 120, 24); // 120 / 5  = 24
-        int volumeWidth = 24*gamePanel.music.volumeScale;
+        int volumeWidth = 24*gamePanel.musicManager.getVolumeScale();
         g2d.fillRect(textX, textY, volumeWidth, 24);
         // Sound effects
         textY += gamePanel.tileSize;
         g2d.drawRect(textX, textY, 120, 24);
-        volumeWidth = 24*gamePanel.soundEffect.volumeScale;
+        volumeWidth = 24*gamePanel.soundEffectManager.getVolumeScale();
         g2d.fillRect(textX, textY, volumeWidth, 24);
 
     }
@@ -451,7 +452,8 @@ public class UI {
             if(gamePanel.keyboardHandler.enterPressed){
                 subState = 0;
                 gamePanel.gameState = gamePanel.titleState;
-                gamePanel.music.stop();
+                //gamePanel.music.stop();
+                gamePanel.stopMusic();
             }
         }
         // No
