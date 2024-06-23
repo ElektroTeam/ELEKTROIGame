@@ -147,7 +147,7 @@ public class KeyboardHandler implements KeyListener {
             if(gamePanel.ui.commandNum == 0) {
                 //gamePanel.ui.titleScreenState = 1;
                 gamePanel.gameState = gamePanel.playState;
-                gamePanel.playMusic(SoundType.BACKGROUND);
+                gamePanel.playMusic(SoundType.HOUSETHEME);
             } else if(gamePanel.ui.commandNum == 1) {
                 // Later
             } else if(gamePanel.ui.commandNum == 2) {
