@@ -103,8 +103,16 @@ public class KeyboardHandler implements KeyListener {
         // Map state
         } else if(gamePanel.gameState == gamePanel.mapState){
             mapState(code);
+        //credits state
+        } else if(gamePanel.gameState == gamePanel.creditsState){
+            creditsState(code);
         }
 
+    }
+    public void creditsState(int code) {
+        if (code == KeyEvent.VK_ENTER || code == KeyEvent.VK_ESCAPE) {
+            gamePanel.gameState = gamePanel.titleState;
+        }
     }
     public void mapState(int code){
         if(code == KeyEvent.VK_M){
@@ -136,11 +144,11 @@ public class KeyboardHandler implements KeyListener {
         if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
             gamePanel.ui.commandNum--;
             if(gamePanel.ui.commandNum < 0) {
-                gamePanel.ui.commandNum = 2;
+                gamePanel.ui.commandNum = 3;
             }
         } else if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             gamePanel.ui.commandNum++;
-            if(gamePanel.ui.commandNum > 2) {
+            if(gamePanel.ui.commandNum > 3) {
                 gamePanel.ui.commandNum = 0;
             }
         } else if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
@@ -151,6 +159,9 @@ public class KeyboardHandler implements KeyListener {
             } else if(gamePanel.ui.commandNum == 1) {
                 // Later
             } else if(gamePanel.ui.commandNum == 2) {
+                gamePanel.gameState = gamePanel.creditsState;
+            }
+            else if(gamePanel.ui.commandNum == 3) {
                 System.exit(0);
             }
         }

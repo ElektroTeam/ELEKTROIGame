@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
     // Music and sound effect
     public SoundManager musicManager;
     public SoundManager soundEffectManager;
+    //public int creditsState;
     private SoundType currentMusic;
 
     //Sound music = new Sound();
@@ -69,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int optionsState = 4;
     public final int gameOverState = 5;
     public final int mapState = 6;
+    public final int creditsState = 7;
     // Logo
     BufferedImage logo = UtilityTool.setup("/logo/logo.png", this);
     public Map1 map1;
@@ -202,6 +204,8 @@ public class GamePanel extends JPanel implements Runnable {
             } else {
                 map2.drawFullMapScreen(g2d);
             }
+        } else if (gameState == creditsState) {
+            ui.drawCreditsScreen(g2d);
         } else {
             // Tile
             tileManager.draw(g2d);

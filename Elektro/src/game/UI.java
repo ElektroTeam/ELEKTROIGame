@@ -1,7 +1,6 @@
 package game;
 
 import entities.Entity;
-import game.sound.enums.SoundType;
 import items.Heart;
 import items.SuperObject;
 
@@ -175,14 +174,63 @@ public class UI {
         if(commandNum==1){
             g2d.drawString(">", x-gamePanel.tileSize, y);
         }
+        text = "CREDITS";
+        x = getXforCenteredText(text);
+        y += gamePanel.tileSize;
+        g2d.drawString(text, x, y);
+        if (commandNum == 2) {
+            g2d.drawString(">", x - gamePanel.tileSize, y);
+        }
         text = "QUIT";
         x = getXforCenteredText(text);
         y += gamePanel.tileSize;
         g2d.drawString(text, x, y);
-        if(commandNum==2){
+        if(commandNum==3){
             g2d.drawString(">", x-gamePanel.tileSize, y);
         }
     }
+    public void drawCreditsScreen(Graphics2D g2d) {
+        // Clear screen
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, gamePanel.screenWidth, gamePanel.screenHeight);
+
+        // Set font and color for the credits
+        g2d.setFont(new Font("Arial", Font.PLAIN, 24));
+        g2d.setColor(Color.WHITE);
+
+        // Text lines
+        String[] creditsLines = {
+                "Credits",
+                "",
+                "Gameplay design: Diego Iraheta",
+                "Art designer: Isaac Tovar",
+                "Levels, maps and lore: Alexander Morales",
+                "Music and sound effects: Abraham Flores",
+                "",
+                "Special thanks to:",
+                "Manu Carbajo (Book writer)",
+                "Javier Ruescas (Book writer)",
+                "Manuel Madriz (Instructor)",
+                "Ing. Enmanuel Araujo",
+                "Ing. Mario Lopez",
+                "Ing. Marlene Aguilar"
+        };
+
+        int x = gamePanel.screenWidth / 2;
+        int y = gamePanel.tileSize;
+
+        // Draw each line of the credits
+        for (String line : creditsLines) {
+            int textWidth = g2d.getFontMetrics().stringWidth(line);
+            g2d.drawString(line, x - textWidth / 2, y);
+            y += 30;
+        }
+    }
+
+
+
+
+
     public void drawPauseScreen(){
         g2d.setColor(Color.WHITE);
         g2d.setFont(g2d.getFont().deriveFont(70F));
