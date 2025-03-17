@@ -32,7 +32,7 @@ public class DesertMap extends Map {
         defaultYFinished = 43;*/
         finishedMapArea = new Rectangle(gamePanel.getTileSize()*30, (gamePanel.getTileSize()*49)-10, gamePanel.getTileSize()*4, gamePanel.getTileSize()*1);
         loadEntities();
-        setBattleBackground("res/backgrounds/crystal_desert.png");
+        setBattleBackground("./backgrounds/crystal_desert.png");
 
     }
     /**

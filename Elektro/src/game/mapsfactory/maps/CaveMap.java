@@ -31,13 +31,13 @@ public class CaveMap extends Map{
         //finishedMapArea = new Rectangle(gamePanel.getTileSize()*21, gamePanel.getTileSize()*28, gamePanel.getTileSize()*3, gamePanel.getTileSize()*2);
         loadEntities();
         //index 0
-        getMultipleBattleBackgrounds().add("res/backgrounds/crystal_cave.png");
+        getMultipleBattleBackgrounds().add("/backgrounds/crystal_cave.png");
         //index 1
-        getMultipleBattleBackgrounds().add("res/backgrounds/sentinel_cave.png");
+        getMultipleBattleBackgrounds().add("/backgrounds/sentinel_cave.png");
         //index 2
-        getMultipleBattleBackgrounds().add("res/backgrounds/infant_cave.png");
+        getMultipleBattleBackgrounds().add("/backgrounds/infant_cave.png");
         //index 3
-        getMultipleBattleBackgrounds().add("res/backgrounds/boss_cave.png");
+        getMultipleBattleBackgrounds().add("./backgrounds/boss_cave.png");
     }
     /**
      * Reset the battle zones.

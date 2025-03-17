@@ -17,6 +17,8 @@ import utilities.arcadeFont;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * this is the Battle GUI system
@@ -48,8 +50,19 @@ public class BattleGUI extends JFrame {
     private void initGUI() {
         // Test
         setUndecorated(true);
-        arcadeFont font = new arcadeFont("res/fonts/ARCADE_N.TTF",20.0f,Font.BOLD);
-        Font arcadeFont = font.getFont();
+        Font arcadeFont = null;
+        try{
+            InputStream inputStream = getClass().getResourceAsStream("/fonts/ARCADE_N.TTF");
+            arcadeFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            arcadeFont.deriveFont(20.0f);
+
+        } catch (FontFormatException e){
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Scenario backgroundPanel = new Scenario(battle.getBackgroundPath());
         backgroundPanel.setLayout(null);
         //Message in game label

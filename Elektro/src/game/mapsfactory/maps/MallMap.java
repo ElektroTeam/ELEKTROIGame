@@ -27,7 +27,7 @@ public class MallMap extends Map {
         defaultYFinished = 23;*/
         finishedMapArea = new Rectangle(gamePanel.getTileSize()*23, gamePanel.getTileSize()*48, gamePanel.getTileSize()*4, gamePanel.getTileSize()*1);
         loadEntities();
-        setBattleBackground("res/backgrounds/boss_mall.png");
+        setBattleBackground("/backgrounds/boss_mall.png");
     }
     /**
      * Load the map.
