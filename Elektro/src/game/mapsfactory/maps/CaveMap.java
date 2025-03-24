@@ -37,7 +37,7 @@ public class CaveMap extends Map{
         //index 2
         getMultipleBattleBackgrounds().add("/backgrounds/infant_cave.png");
         //index 3
-        getMultipleBattleBackgrounds().add("./backgrounds/boss_cave.png");
+        getMultipleBattleBackgrounds().add("/backgrounds/boss_cave.png");
     }
     /**
      * Reset the battle zones.

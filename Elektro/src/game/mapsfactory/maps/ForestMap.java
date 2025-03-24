@@ -27,7 +27,7 @@ public class ForestMap extends Map {
         defaultYFinished = 32;*/
         finishedMapArea = new Rectangle(gamePanel.getTileSize()*34, gamePanel.getTileSize()*46, gamePanel.getTileSize()*2, gamePanel.getTileSize()*1);
         loadEntities();
-        setBattleBackground("./res/backgrounds/wolf_forest.png");
+        setBattleBackground("/backgrounds/wolf_forest.png");
     }
     /**
      * Load the map.
