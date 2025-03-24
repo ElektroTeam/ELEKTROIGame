@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Principal panel builder with the image of the battle background
@@ -19,7 +20,9 @@ public class Scenario extends JPanel {
      */
     public Scenario(String imagePath){
         try{
-            backgroundImage = ImageIO.read(new File(imagePath));
+            System.out.println(imagePath);
+            InputStream inputStream = getClass().getResourceAsStream(imagePath);
+            backgroundImage = ImageIO.read(inputStream);
         }catch (IOException e){
             e.printStackTrace();
         }
