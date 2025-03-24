@@ -53,9 +53,8 @@ public class BattleGUI extends JFrame {
         Font arcadeFont = null;
         try{
             InputStream inputStream = getClass().getResourceAsStream("/fonts/ARCADE_N.TTF");
-            arcadeFont = Font.createFont(Font.TRUETYPE_FONT, inputStream);
-            arcadeFont.deriveFont(20.0f);
-
+            arcadeFont = Font.createFont(Font.TRUETYPE_FONT, inputStream).deriveFont(20.0f);
+            System.out.println(arcadeFont.getSize());
         } catch (FontFormatException e){
             e.printStackTrace();
         } catch (IOException e) {
