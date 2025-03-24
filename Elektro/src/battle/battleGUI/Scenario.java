@@ -20,7 +20,6 @@ public class Scenario extends JPanel {
      */
     public Scenario(String imagePath){
         try{
-            System.out.println(imagePath);
             InputStream inputStream = getClass().getResourceAsStream(imagePath);
             backgroundImage = ImageIO.read(inputStream);
         }catch (IOException e){
