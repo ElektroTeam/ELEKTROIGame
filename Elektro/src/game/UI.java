@@ -671,7 +671,7 @@ public class UI {
         //g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 56F));
         g2d.setFont(pixelTimes);
         g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 64F));
-        String text = "Elektro 1";
+        String text = "ELEKTRO 1";
         int x, y;
         x = getXforCenteredText(text);
         y = gamePanel.getTileSize()*2;
@@ -728,9 +728,15 @@ public class UI {
             g2d.setFont(g2d.getFont().deriveFont(18F));
             text = "Developer mode";
             x = 5;
-            y = gamePanel.getTileSize();
+            y = gamePanel.getTileSize()*11;
             g2d.drawString(text, x, y);
         }
+        // Game version
+        text = "v1.0.0";
+        x = 7;
+        y = gamePanel.getTileSize()*12;
+        g2d.setFont(g2d.getFont().deriveFont(18F));
+        g2d.drawString(text, x, y);
     }
     /**
      * Draw the pause screen.

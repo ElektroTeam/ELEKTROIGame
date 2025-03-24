@@ -66,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean checkColissions = true;
     // Game settings
     private GameState gameState;
+    private String gameVersion;
     // Images
     private BufferedImage logo, mainMenu, batteryIcon, mapIcon, diaryIcon, diaryBackground, efrainDev, isaacDev, diegoDev, abrahamDev;
     // Levels and maps
@@ -519,6 +520,16 @@ public class GamePanel extends JPanel implements Runnable {
      * @param gameState
      */
     public void setGameState(GameState gameState) {this.gameState = gameState;}
+    /**
+     * Get the game version.
+     * @return
+     */
+    public String getGameVersion() {return gameVersion;}
+    /**
+     * Set the game version.
+     * @param gameVersion
+     */
+    public void setGameVersion(String gameVersion) {this.gameVersion = gameVersion;}
     /**
      * Get the game logo.
      * @return
