@@ -1203,6 +1203,7 @@ public class UI {
                 gamePanel.getPlayer().setDefaultPositions();
                 gamePanel.setGameState(GameState.TITLE_STATE);
                 gamePanel.getMusic().stop();
+                gamePanel.playMusic(0);
             }
         }
         // No
