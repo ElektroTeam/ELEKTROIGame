@@ -15,7 +15,7 @@ public class Main {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("ELEKTRO I: YOU CAN (NOT) REDO");
+        window.setTitle("ELEKTRO");
         //window.setUndecorated(true);
 
         GamePanel gamePanel = new GamePanel();

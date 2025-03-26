@@ -9,6 +9,7 @@ import game.cutscene.Cutscene;
 import items.Heart;
 import items.VisualObject;
 import utilities.BattleExtensions;
+import utilities.UtilityTool;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,6 +26,7 @@ public class UI {
     private Font arial_40, arial_80B, purisaBold, pixelTimes;
     private BufferedImage heart_full, heart_half, heart_blank;
     private String currentDialogue = "";
+    private String currentAnimationText = "";
     private String currentCutscene = "";
     private String currentCutsceneCode = "";
     private int cutsceneIndex = 0;
@@ -37,6 +39,7 @@ public class UI {
     private int diaryPage = 0, diaryIndex = 0;
     private boolean finishedMallCinematic = false, removeLockedDialogue = true, finishedCaveCinematic = false, finishedFinalCinematic = false;
     private float opacity = 0.0f;
+    private int timeCounter = 0;
     /**
      * Public constructor.
      * @param gamePanel
@@ -99,6 +102,16 @@ public class UI {
         // Title state
         if(gamePanel.getGameState() == GameState.TITLE_STATE) {
             drawTitleScreen();
+        } else if(gamePanel.getGameState() == GameState.SECRET_PROJECTS_SEQUENCE_STATE){
+            drawSecretProjectsScreen();
+        } else if(gamePanel.getGameState() == GameState.FIRST_PROJECT_STATE){
+            drawFirstProjectScreen();
+        } else if(gamePanel.getGameState() == GameState.SECOND_PROJECT_STATE){
+            drawSecondProjectScreen();
+        } else if(gamePanel.getGameState() == GameState.THIRD_PROJECT_STATE) {
+            drawThirdProjectScreen();
+        } else if(gamePanel.getGameState() == GameState.TO_BE_CONTINUED_STATE){
+            drawToBeContinuedScreen();
         } else if(gamePanel.getGameState() == GameState.PLAY_STATE){
             drawIconButtons();
             drawCurrentMapName();
@@ -699,7 +712,12 @@ public class UI {
         y += gamePanel.getTileSize()*3;
         g2d.drawString(text, x, y);
         if(commandNum==0){
-            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            timeCounter++;
+            if(timeCounter>36){
+                g2d.drawString(">", x-gamePanel.getTileSize(), y);
+                g2d.drawString("<", getXRightForCenteredText(text), y);
+                if(timeCounter>60)  timeCounter = 0;
+            }
         }
         /*text = "SETTINGS";
         x = getXforCenteredText(text);
@@ -710,17 +728,27 @@ public class UI {
         }*/
         text = "CREDITS";
         x = getXforCenteredText(text);
-        y += gamePanel.getTileSize();
+        y += gamePanel.getTileSize()*1.5;
         g2d.drawString(text, x, y);
         if(commandNum==1){
-            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            timeCounter++;
+            if(timeCounter>36){
+                g2d.drawString(">", x-gamePanel.getTileSize(), y);
+                g2d.drawString("<", getXRightForCenteredText(text), y);
+                if(timeCounter>60)  timeCounter = 0;
+            }
         }
         text = "QUIT";
         x = getXforCenteredText(text);
-        y += gamePanel.getTileSize();
+        y += gamePanel.getTileSize()*1.5;
         g2d.drawString(text, x, y);
         if(commandNum==2){
-            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            timeCounter++;
+            if(timeCounter>36){
+                g2d.drawString(">", x-gamePanel.getTileSize(), y);
+                g2d.drawString("<", getXRightForCenteredText(text), y);
+                if(timeCounter>60)  timeCounter = 0;
+            }
         }
 
         // Dev mode window
@@ -733,10 +761,218 @@ public class UI {
         }
         // Game version
         text = "v1.0.0";
-        x = 7;
+        x = 5;
         y = gamePanel.getTileSize()*12;
         g2d.setFont(g2d.getFont().deriveFont(18F));
         g2d.drawString(text, x, y);
+    }
+    /**
+     * Draw secret projects intro
+     */
+    public void drawSecretProjectsScreen(){
+        g2d.setColor(new Color(7, 17, 40));
+        g2d.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+        // Background image
+        //g2d.drawImage(gamePanel.getMainMenu(), 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
+        // Title name
+        //g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 56F));
+        g2d.setFont(pixelTimes);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 64F));
+        String text = "PROJECTS DEVELOPED BY";
+        int x, y;
+        x = getXforCenteredText(text);
+        y = gamePanel.getTileSize()*4;
+        // Shadow
+        g2d.setColor(Color.GRAY);
+        g2d.drawString(text, x+5, y+5);
+        // Main color
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, x, y);
+        y += gamePanel.getTileSize();
+        text = "ELEKTRO team";
+        char characters[] = text.toCharArray();
+        if(charIndex < characters.length){
+            String s = String.valueOf(characters[charIndex]);
+            combinedText = combinedText + s;
+            currentAnimationText = combinedText;
+            charIndex++;
+        }
+        //g2d.setColor(new Color(48, 29, 72));
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize();
+        g2d.drawString(currentAnimationText, x, y);
+        timeCounter++;
+        if(timeCounter>36){
+            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            g2d.drawString("<", getXRightForCenteredText(text), y);
+            if(timeCounter>60)  timeCounter = 0;
+        }
+        y += gamePanel.getTileSize();
+        g2d.drawImage(UtilityTool.scaleImage(gamePanel.getDiegoDev(), gamePanel.getTileSize()*2, gamePanel.getTileSize()*2), gamePanel.getTileSize()*3, y, null);
+        g2d.drawImage(UtilityTool.scaleImage(gamePanel.getAbrahamDev(), gamePanel.getTileSize()*2, gamePanel.getTileSize()*2), gamePanel.getTileSize()*7, y, null);
+        g2d.drawImage(UtilityTool.scaleImage(gamePanel.getIsaacDev(), gamePanel.getTileSize()*2, gamePanel.getTileSize()*2), gamePanel.getTileSize()*11, y, null);
+        g2d.drawImage(UtilityTool.scaleImage(gamePanel.getEfrainDev(), gamePanel.getTileSize()*2, gamePanel.getTileSize()*2), gamePanel.getTileSize()*15, y, null);
+    }
+
+    /**
+     * Draw first project
+     */
+    public void drawFirstProjectScreen(){
+        g2d.setColor(new Color(7, 17, 40));
+        g2d.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+        // Background image
+        //g2d.drawImage(gamePanel.getMainMenu(), 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
+        // Title name
+        //g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 56F));
+        g2d.setFont(pixelTimes);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 64F));
+        String text = "ELEKTRO I";
+        int x, y;
+        x = getXforCenteredText(text);
+        y = gamePanel.getTileSize()*5;
+        // Shadow
+        g2d.setColor(Color.GRAY);
+        g2d.drawString(text, x+5, y+5);
+        // Main color
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, x, y);
+        y += gamePanel.getTileSize();
+        text = "YOU CAN (NOT) REDO";
+        g2d.setColor(new Color(0, 255, 255));
+        char characters[] = text.toCharArray();
+        if(charIndex < characters.length){
+            String s = String.valueOf(characters[charIndex]);
+            combinedText = combinedText + s;
+            currentAnimationText = combinedText;
+            charIndex++;
+        }
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize();
+        g2d.drawString(currentAnimationText, x, y);
+        //g2d.drawString(text, x, y);
+        timeCounter++;
+        if(timeCounter>36){
+            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            g2d.drawString("<", getXRightForCenteredText(text), y);
+            if(timeCounter>60)  timeCounter = 0;
+        }
+    }
+    /**
+     * Draw second project
+     */
+    public void drawSecondProjectScreen(){
+        g2d.setColor(new Color(34, 8, 51));
+        g2d.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+        // Background image
+        //g2d.drawImage(gamePanel.getMainMenu(), 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
+        // Title name
+        //g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 56F));
+        g2d.setFont(pixelTimes);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 64F));
+        String text = "ELEKTRO II";
+        int x, y;
+        x = getXforCenteredText(text);
+        y = gamePanel.getTileSize()*5;
+        // Shadow
+        g2d.setColor(Color.GRAY);
+        g2d.drawString(text, x+5, y+5);
+        // Main color
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, x, y);
+        y += gamePanel.getTileSize();
+        text = "AURA VINDEX";
+        char characters[] = text.toCharArray();
+        if(charIndex < characters.length){
+            String s = String.valueOf(characters[charIndex]);
+            combinedText = combinedText + s;
+            currentAnimationText = combinedText;
+            charIndex++;
+        }
+        g2d.setColor(new Color(111, 49, 152));
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize();
+        //g2d.drawString(text, x, y);
+        g2d.drawString(currentAnimationText, x, y);
+        timeCounter++;
+        if(timeCounter>36){
+            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            g2d.drawString("<", getXRightForCenteredText(text), y);
+            if(timeCounter>60)  timeCounter = 0;
+        }
+    }
+    /**
+    * Draw third project
+    */
+    public void drawThirdProjectScreen(){
+        g2d.setColor(new Color(49, 31, 8));
+        g2d.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+        // Background image
+        //g2d.drawImage(gamePanel.getMainMenu(), 0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight(), null);
+        // Title name
+        //g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 56F));
+        g2d.setFont(pixelTimes);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 64F));
+        String text = "ELEKTRO III";
+        int x, y;
+        x = getXforCenteredText(text);
+        y = gamePanel.getTileSize()*2;
+        // Shadow
+        g2d.setColor(Color.GRAY);
+        g2d.drawString(text, x+5, y+5);
+        // Main color
+        g2d.setColor(Color.WHITE);
+        g2d.drawString(text, x, y);
+        y += gamePanel.getTileSize();
+        text = "????????????";
+        g2d.setColor(new Color(226, 149, 51));
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize();
+        g2d.drawString(text, x, y);
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 48F));
+        g2d.setColor(Color.WHITE);
+        text = "WHAT IS NEXT? \nIS THIS THE END? \n COMING SOON...";
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize()*3;
+        /*g2d.drawString(text, x, y);
+        text = "¿IS THIS THE END?";
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize()*1.5;
+        g2d.drawString(text, x, y);
+        text = "COMING SOON...";*/
+        char characters[] = text.toCharArray();
+        if(charIndex < characters.length){
+            String s = String.valueOf(characters[charIndex]);
+            combinedText = combinedText + s;
+            currentAnimationText = combinedText;
+            charIndex++;
+        }
+        text = "COMING SOON...";
+        x = getXforCenteredText(text);
+        y += gamePanel.getTileSize()*1.5;
+        drawMultipleLinesCentered(currentAnimationText, y);
+        y += gamePanel.getTileSize()*2;
+        //g2d.drawString(text, x, y);
+        timeCounter++;
+        if(timeCounter>36){
+            g2d.drawString(">", x-gamePanel.getTileSize(), y);
+            g2d.drawString("<", getXRightForCenteredText(text), y);
+            if(timeCounter>60)  timeCounter = 0;
+        }
+    }
+    /**
+     * Draw to be continued
+     */
+    public void drawToBeContinuedScreen(){
+        String text;
+        int x, y;
+        if(opacity>=1.0f){
+            opacity = 1.0f;
+        }
+        g2d.setColor(new Color(0, 0, 0, opacity));
+        g2d.fillRect(0, 0, gamePanel.getScreenWidth(), gamePanel.getScreenHeight());
+        g2d.setFont(g2d.getFont().deriveFont(Font.BOLD, 50F));
+        g2d.setColor(Color.WHITE);
+        opacity += 0.0005f;
     }
     /**
      * Draw the pause screen.
@@ -1272,6 +1508,17 @@ public class UI {
         }
     }
     /**
+     * Draw a text with multiple lines centered.
+     * @param text
+     * @param textY
+     */
+    public void drawMultipleLinesCentered(String text, int textY){
+        for(String line : text.split("\n")){
+            g2d.drawString(line, getXforCenteredText(line), textY);
+            textY += 50;
+        }
+    }
+    /**
      * Get the X position to draw a text in the center of the screen.
      * @param text
      * @return
@@ -1280,6 +1527,15 @@ public class UI {
         int length = (int)g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
         return (gamePanel.getScreenWidth()/2) - (length/2);
 
+    }
+    /**
+     * Get the X position to draw a text in the center of the screen from right.
+     * @param text
+     * @return
+     */
+    public int getXRightForCenteredText(String text) {
+        int length = (int)g2d.getFontMetrics().getStringBounds(text, g2d).getWidth();
+        return (((gamePanel.getScreenWidth()/2) + (length/2)) + gamePanel.getTileSize()/5);
     }
     /**
      *  Get the current cutscene code.
@@ -1391,4 +1647,42 @@ public class UI {
      * @param opacity
      */
     public void setOpacity(float opacity) {this.opacity = opacity;}
+    /**
+     * Get the char index.
+     * @return
+     */
+    public int getCharIndex() {return charIndex;}
+    /**
+     * Set the char index.
+     * @param charIndex
+     */
+    public void setCharIndex(int charIndex) {this.charIndex = charIndex;}
+    /**
+     * Get the current animation text.
+     * @return
+     */
+    public String getCurrentAnimationText() {
+        return currentAnimationText;
+    }
+    /**
+     * Set the current animation text.
+     * @param currentAnimationText
+     */
+    public void setCurrentAnimationText(String currentAnimationText) {
+        this.currentAnimationText = currentAnimationText;
+    }
+    /**
+     * Get the combined text.
+     * @return
+     */
+    public String getCombinedText() {
+        return combinedText;
+    }
+    /**
+     * Set the combined text.
+     * @param combinedText
+     */
+    public void setCombinedText(String combinedText) {
+        this.combinedText = combinedText;
+    }
 }

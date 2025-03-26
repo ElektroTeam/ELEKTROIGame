@@ -315,6 +315,8 @@ public class GamePanel extends JPanel implements Runnable {
         // Title screen
         if(gameState == GameState.TITLE_STATE) {
             ui.draw(g2d);
+        } else if ((gameState == GameState.SECRET_PROJECTS_SEQUENCE_STATE) || (gameState == GameState.FIRST_PROJECT_STATE) || (gameState == GameState.SECOND_PROJECT_STATE) || (gameState == GameState.THIRD_PROJECT_STATE) || (gameState == GameState.TO_BE_CONTINUED_STATE)) {
+            ui.draw(g2d);
         } else if(gameState == GameState.CHOOSE_LEVEL_STATE) {
             ui.draw(g2d);
         } else if(gameState == GameState.CREDITS_STATE){

@@ -1,13 +1,9 @@
 package game;
 
 import enums.GameState;
-import game.mapsfactory.maps.DesertMap;
-import game.mapsfactory.maps.HouseMap;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,7 +14,10 @@ public class KeyboardHandler implements KeyListener {
     private GamePanel gamePanel;
     private boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, escapePressed;
     private ArrayList<Integer> devModeSequence = new ArrayList<>(Arrays.asList(KeyEvent.VK_D, KeyEvent.VK_E, KeyEvent.VK_V));
-    private ArrayList<Integer> keySequence = new ArrayList<>();
+    private ArrayList<Integer> secretProjectsSequence = new ArrayList<>(Arrays.asList(KeyEvent.VK_D, KeyEvent.VK_A, KeyEvent.VK_I, KeyEvent.VK_E));
+    private ArrayList<Integer> keySequenceDev = new ArrayList<>();
+    private ArrayList<Integer> keySequenceSecretProjects = new ArrayList<>();
+
     // Debugging
     private boolean checkDrawTime = false, drawBattleAreas = false;
     /**
@@ -39,11 +38,15 @@ public class KeyboardHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
         // Developer mode
-        keySequence.add(e.getKeyCode());
-        if(keySequence.size() > devModeSequence.size()) {
-            keySequence.remove(0);
+        keySequenceDev.add(e.getKeyCode());
+        keySequenceSecretProjects.add(e.getKeyCode());
+        if(keySequenceDev.size() > devModeSequence.size()) {
+            keySequenceDev.remove(0);
         }
-        if(keySequence.equals(devModeSequence)) {
+        if(keySequenceSecretProjects.size() > secretProjectsSequence.size()) {
+            keySequenceSecretProjects.remove(0);
+        }
+        if(keySequenceDev.equals(devModeSequence)) {
             if(gamePanel.isDeveloperMode()){
                 System.out.println("Exited developer mode");
                 gamePanel.setDeveloperMode(false);
@@ -52,8 +55,61 @@ public class KeyboardHandler implements KeyListener {
                 gamePanel.setDeveloperMode(true);
             }
         }
+        if(keySequenceSecretProjects.equals(secretProjectsSequence) && (gamePanel.getGameState() == GameState.TITLE_STATE)) {
+            System.out.println("Entered secret projects sequence");
+            gamePanel.getUi().setCharIndex(0);
+            gamePanel.getUi().setCurrentAnimationText("");
+            gamePanel.getUi().setCombinedText("");
+            gamePanel.setGameState(GameState.SECRET_PROJECTS_SEQUENCE_STATE);
+        }
         if(gamePanel.isDeveloperMode()){
             devMode(code);
+        }
+        if(gamePanel.getGameState() == GameState.SECRET_PROJECTS_SEQUENCE_STATE){
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.getUi().setCharIndex(0);
+                gamePanel.getUi().setCurrentAnimationText("");
+                gamePanel.getUi().setCombinedText("");
+                gamePanel.setGameState(GameState.FIRST_PROJECT_STATE);
+                return;
+            }
+        }
+        if(gamePanel.getGameState() == GameState.FIRST_PROJECT_STATE){
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.getUi().setCharIndex(0);
+                gamePanel.getUi().setCurrentAnimationText("");
+                gamePanel.getUi().setCombinedText("");
+                gamePanel.setGameState(GameState.SECOND_PROJECT_STATE);
+                return;
+            }
+        }
+        if(gamePanel.getGameState() == GameState.SECOND_PROJECT_STATE){
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.getUi().setCharIndex(0);
+                gamePanel.getUi().setCurrentAnimationText("");
+                gamePanel.getUi().setCombinedText("");
+                gamePanel.setGameState(GameState.THIRD_PROJECT_STATE);
+                return;
+            }
+        }
+        if(gamePanel.getGameState() == GameState.THIRD_PROJECT_STATE){
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.getUi().setCharIndex(0);
+                gamePanel.getUi().setCurrentAnimationText("");
+                gamePanel.getUi().setCombinedText("");
+                gamePanel.setGameState(GameState.TO_BE_CONTINUED_STATE);
+                return;
+            }
+        }
+        if(gamePanel.getGameState() == GameState.TO_BE_CONTINUED_STATE){
+            if(code == KeyEvent.VK_ENTER) {
+                gamePanel.getUi().setCharIndex(0);
+                gamePanel.getUi().setCurrentAnimationText("");
+                gamePanel.getUi().setCombinedText("");
+                gamePanel.getUi().setOpacity(0.0f);
+                gamePanel.setGameState(GameState.TITLE_STATE);
+                return;
+            }
         }
         if (gamePanel.getGameState() == GameState.TITLE_STATE) {
             // Title state

@@ -9,6 +9,26 @@ public enum GameState {
      */
     TITLE_STATE,
     /**
+     * When the player enters the secret projects sequence
+     */
+    SECRET_PROJECTS_SEQUENCE_STATE,
+    /**
+     * When the player is in the menu about our first project
+     */
+    FIRST_PROJECT_STATE,
+    /**
+     *  When the player is in the menu about our second project
+     */
+    SECOND_PROJECT_STATE,
+    /**
+     * When the player is in the menu about our third project
+     */
+    THIRD_PROJECT_STATE,
+    /**
+     * To be contined...
+     */
+    TO_BE_CONTINUED_STATE,
+    /**
      * When the player is playing.
      */
     PLAY_STATE,
